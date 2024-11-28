@@ -1,5 +1,5 @@
 <?php
-$host = "MSI";
+$host = "LAPTOP-DL9EJTU3\MSSQLSERVER01";
 $connInfo = array("Database" => "sibatta", "UID" => "", "PWD" => "");
 $conn = sqlsrv_connect($host, $connInfo);
 
