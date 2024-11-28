@@ -87,12 +87,15 @@
                             <ion-icon name="notifications-outline"></ion-icon>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-right"></i>Log out</a>
-                            <ion-icon name="person-circle-outline"></ion-icon>
-                        </a>
-                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <span id="username">Username</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2">
+                        <li><a class="dropdown-item" href="login.php"><i class="bi bi-box-arrow-right"></i>Log out</a></li>
+                    </ul>
+                </li>
                 </ul>
             </div>
         </div>
