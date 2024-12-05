@@ -1,4 +1,6 @@
 <?php
+include 'koneksi.php'; // Include the database connection
+
 // Define the directory to save uploaded files
 $uploadDir = 'uploads/';
 
@@ -9,6 +11,7 @@ if (!file_exists($uploadDir)) {
 
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['files'])) {
+<<<<<<< Updated upstream
     // Loop through uploaded files
     foreach ($_FILES['files']['tmp_name'] as $key => $tmpName) {
         $fileName = $_FILES['files']['name'][$key];
@@ -21,20 +24,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['files'])) {
             $targetFile = $uploadDir . basename($fileName);
             if (move_uploaded_file($fileTmpName, $targetFile)) {
                 $message = 'File uploaded successfully!';
+=======
+    // Retrieve the user ID and title from the form
+    $userId = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
+    $title = isset($_POST['title']) ? $_POST['title'] : '';
+    $uploadedAt = date('Y-m-d'); // Current date
+
+    if ($userId > 0 && !empty($title)) {
+        foreach ($_FILES['files']['tmp_name'] as $key => $tmpName) {
+            $fileName = $_FILES['files']['name'][$key];
+            $fileTmpName = $_FILES['files']['tmp_name'][$key];
+            $fileError = $_FILES['files']['error'][$key];
+
+            if ($fileError === UPLOAD_ERR_OK) {
+                // Create a unique file name to avoid overwriting
+                $targetFile = $uploadDir . time() . '_' . basename($fileName);
+                if (move_uploaded_file($fileTmpName, $targetFile)) {
+                    // Insert file data into the database
+                    $sql = "INSERT INTO [sibatta].[document] (user_id, title, uploaded_at) 
+                            VALUES (?, ?, ?)";
+                    $params = [$userId, $title, $uploadedAt];
+                    $stmt = sqlsrv_query($conn, $sql, $params);
+
+                    if ($stmt) {
+                        $message = 'File uploaded and saved to the database successfully!';
+                    } else {
+                        $message = 'Database error: ' . print_r(sqlsrv_errors(), true);
+                    }
+                } else {
+                    $message = 'Error moving uploaded file.';
+                }
+>>>>>>> Stashed changes
             } else {
-                $message = 'Error uploading file.';
+                $message = 'There was an error with the file upload.';
             }
-        } else {
-            $message = 'There was an error with the file upload.';
         }
+    } else {
+        $message = 'Please provide a valid User ID and Title.';
     }
 }
 
+<<<<<<< Updated upstream
 // Retrieve list of uploaded files
 $files = array_diff(scandir($uploadDir), array('.', '..')); // List files in the uploads directory
 
 ?>
 
+=======
+// Retrieve list of uploaded documents from the database
+$sql = "SELECT document_id, title, uploaded_at, validated_by FROM [sibatta].[document]";
+$stmt = sqlsrv_query($conn, $sql);
+$documents = [];
+if ($stmt) {
+    while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+        $documents[] = $row;
+    }
+}
+?>
+
+>>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,12 +91,10 @@ $files = array_diff(scandir($uploadDir), array('.', '..')); // List files in the
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="css/upload.css">
 </head>
 
 <body>
+<<<<<<< Updated upstream
 <div id="sidebar">
         <div class="text-center p-3">
             <img src="css/images/logo_Polinema.png" alt="Logo" width="50" height="40" class="img-fluid">
@@ -123,80 +169,64 @@ $files = array_diff(scandir($uploadDir), array('.', '..')); // List files in the
     <div id="overlay"></div>
 
     <!-- Main Content -->
+=======
+>>>>>>> Stashed changes
     <div class="container mt-4">
         <h1>Upload File</h1>
         <?php if ($message): ?>
             <div class="alert alert-info"><?php echo $message; ?></div>
         <?php endif; ?>
+
         <!-- Form Upload -->
         <form method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="fileInput" class="form-label">Pilih File</label>
+                <label for="user_id" class="form-label">User ID</label>
+                <input type="number" class="form-control" id="user_id" name="user_id" required>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="fileInput" class="form-label">Select Files</label>
                 <input type="file" class="form-control" id="fileInput" name="files[]" multiple>
             </div>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
 
-        <!-- Table -->
-        <!-- Table -->
-<div class="table-container mt-4">
-    <h3>Uploaded Files</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>File Name</th>
-                <th>File Size</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($files)): ?>
-                <?php foreach ($files as $index => $file): ?>
+        <!-- Uploaded Files -->
+        <div class="table-container mt-4">
+            <h3>Uploaded Documents</h3>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td><?php echo $index + 1; ?></td>
-                        <td><?php echo $file; ?></td>
-                        <td><?php echo number_format(filesize($uploadDir . $file) / 1024, 2) . ' KB'; ?></td>
-                        <td><?php echo date('d-m-Y H:i:s', filemtime($uploadDir . $file)); ?></td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <a href="<?php echo $uploadDir . $file; ?>" download class="btn btn-sm btn-success me-2">Download</a>
-                                <input type="checkbox" name="file_check[]" value="<?php echo $file; ?>">
-                            </div>
-                        </td>
+                        <th>Document ID</th>
+                        <th>Title</th>
+                        <th>Uploaded At</th>
+                        <th>Validated By</th>
                     </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="6" class="text-center">No files uploaded yet.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
+                </thead>
+                <tbody>
+                    <?php if (!empty($documents)): ?>
+                        <?php foreach ($documents as $doc): ?>
+                            <tr>
+                                <td><?php echo $doc['document_id']; ?></td>
+                                <td><?php echo $doc['title']; ?></td>
+                                <td><?php echo $doc['uploaded_at']->format('Y-m-d'); ?></td>
+                                <td><?php echo $doc['validated_by'] ?: 'Not validated'; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" class="text-center">No documents uploaded yet.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-
-    <!-- Optional JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-
-        // Handle sidebar toggle
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
-
-        // Close sidebar when overlay is clicked
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-    </script>
 </body>
 
 </html>

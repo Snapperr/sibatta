@@ -115,9 +115,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <!-- NIM Input -->
                 <div class="form-floating mb-3">
                     <input name="username" type="" class="form-control" id="floatingInput" placeholder="Enter NIM" required>
-                    <label for="floatingInput">Username</label>
+                    <label for="floatingInput">NIM</label>
                     <div class="invalid-feedback">
-                        Masukan Username Yang Terdaftar
+                        Masukan NIM Yang Terdaftar
                     </div>
                 </div>
 

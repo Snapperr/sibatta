@@ -1,26 +1,66 @@
 <?php
 // Start the session
 session_start();
+<<<<<<< Updated upstream
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+=======
+
+// Include the database connection
+require 'koneksi.php';
+>>>>>>> Stashed changes
 
 // Placeholder for message if login fails
 $message = "";
 
+<<<<<<< Updated upstream
+=======
+// Check if the form is submitted
+>>>>>>> Stashed changes
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Collect form data
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+<<<<<<< Updated upstream
     // Simulate database check (you should replace this with actual database validation)
     if ($username == "your_correct_username" && $password == "your_correct_password") {
         // Set session variables and redirect to the main page
         $_SESSION['username'] = $username;
         header('Location: main.php'); // Redirect to main.php on success
         exit();
+=======
+    // Validate input
+    if (!empty($username) && !empty($password)) {
+        // Query to check if the user exists and password matches
+        $sql = "SELECT * FROM sibatta.[user] WHERE username = ? AND password = ?";
+
+        $params = array($username, $password);
+
+        $stmt = sqlsrv_query($conn, $sql, $params);
+
+        // Check if the query executed successfully
+        if ($stmt === false) {
+            die(print_r(sqlsrv_errors(), true));
+        }
+
+        // Fetch the user data
+        if ($user = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+            // Set session variables
+            $_SESSION['username'] = $user['username'];
+
+            // Redirect to main.php
+            header('Location: main_user.php');
+            exit();
+        } else {
+            // Invalid username or password
+            $message = "Invalid username or password!";
+        }
+>>>>>>> Stashed changes
     } else {
         // Display error message if login fails
         $message = "Invalid NIM or Password!";
     }
+<<<<<<< Updated upstream
 
 }
 // Simulasi nama pengguna yang disimpan di session
@@ -31,6 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
+=======
+}
+?>
+
+>>>>>>> Stashed changes
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -46,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <main class="form-signin w-100 m-auto">
         <div class="container">
             <!-- Login Form -->
+<<<<<<< Updated upstream
             <form class="needs-validation" novalidate method="POST" action="main.php">
                 <div class="header text-center mb-4">
                     <img src="css/images/logo_Polinema.png" alt="Logo" class="logo" />
@@ -63,6 +109,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="floatingInput">NIM</label>
                     <div class="invalid-feedback">
                         Masukan NIM Yang Terdaftar
+=======
+            <form class="needs-validation" novalidate method="POST" action="">
+                <div class="header text-center mb-4">
+                    <img src="css/images/logo_Polinema.png" alt="Logo" class="logo" />
+                </div>
+
+                <h1 class="h3 mb-3 fw-normal text-center" style="color: black;">SIBATTA</h1>
+
+                <?php if (!empty($message)): ?>
+                    <div class="alert alert-danger text-center"><?php echo $message; ?></div>
+                <?php endif; ?>
+
+                <!-- Username Input -->
+                <div class="form-floating mb-3">
+                    <input name="username" type="text" class="form-control" id="floatingInput" placeholder="Enter Username" required>
+                    <label for="floatingInput">Username</label>
+                    <div class="invalid-feedback">
+                        Please enter your registered username.
+>>>>>>> Stashed changes
                     </div>
                 </div>
 
@@ -71,10 +136,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                     <label for="floatingPassword">Password</label>
                     <div class="invalid-feedback">
+<<<<<<< Updated upstream
                         Masukan Password.
                     </div>
                 </div>
                 
+=======
+                        Please enter your password.
+                    </div>
+                </div>
+
+>>>>>>> Stashed changes
                 <!-- Submit Button -->
                 <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
             </form>
@@ -85,7 +157,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+<<<<<<< Updated upstream
         // Basic client-side validation
+=======
+        // Client-side validation
+>>>>>>> Stashed changes
         (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')
