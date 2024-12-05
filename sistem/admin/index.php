@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   body {
     /* background-image: url('images/Graha.jpg'); */
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/Graha.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' css/images/Graha.jpg');
     background-size: cover; /* Menutup seluruh layar */
     background-position: center;
     background-repeat: no-repeat;
@@ -101,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <main class="form-signin w-100 m-auto">
         <div class="container">
             <!-- Login Form -->
-            <form class="needs-validation" novalidate method="POST" action="admin/main.php">
+            <form class="needs-validation" novalidate method="POST" action="main.php">
                 <div class="header text-center mb-4">
-                    <img src="images/logo_Polinema.png" alt="Logo" class="logo" />
+                    <img src="css/images/Logo_Sibatta.png" alt="Logo" class="logo" />
                 </div>
                 
                 <h1 class="h3 mb-3 fw-normal text-center" style="color: black;">SIBATTA</h1>
