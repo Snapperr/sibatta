@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -95,12 +87,15 @@
                             <ion-icon name="notifications-outline"></ion-icon>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-right"></i>Log out</a>
-                            <ion-icon name="person-circle-outline"></ion-icon>
-                        </a>
-                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <span id="username">Username</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2">
+                        <li><a class="dropdown-item" href="login.php"><i class="bi bi-box-arrow-right"></i>Log out</a></li>
+                    </ul>
+                </li>
                 </ul>
             </div>
         </div>
@@ -108,19 +103,14 @@
 
     <!-- Sidebar -->
     <div id="sidebar">
-        <div class="text-center p-3">
-            <img src="css/images/logo_Polinema.png" alt="Logo" width="50" height="40" class="img-fluid">
+    <div class="text-center p-3">
+            <img src="css/images/Logo_Sibatta.png" alt="Logo" width="50" height="40" class="img-fluid">
             <h5 class="mt-2 text-dark">SIBATTA</h5>
         </div>
         <ul class="nav flex-column">
             <li class="nav-item mb-3">
                 <a class="nav-link text-dark d-flex align-items-center" href="main_user.php">
                     <ion-icon name="home-outline" class="me-2"></ion-icon> <span>Beranda</span>
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="history.php">
-                    <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
                 </a>
             </li>
             <li class="nav-item mb-3">
@@ -252,6 +242,4 @@
     </script>
 </body>
 
-</html>
-</body>
 </html>

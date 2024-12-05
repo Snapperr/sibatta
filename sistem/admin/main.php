@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="css/main.css">
     <title>Home</title>
     <style>
         /* Style for hidden sidebar */
@@ -49,6 +49,7 @@
         #sidebarToggle {
             z-index: 1060;
         }
+       
     </style>
 </head>
 
@@ -56,11 +57,12 @@
     <!-- Horizontal Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <button class="btn btn-outline-light me-2" id="sidebarToggle">
-                <ion-icon name="menu-outline"></ion-icon>
+           
+            <button class="btn btn" id="sidebarToggle">
+                <img src="css/images/Logo_Sibatta.png" alt="Toggle Sidebar" style="width: 30px; height: 40px; object-fit:cover;">
             </button>
-            <span class="navbar-brand">SIBATTA</span>
-
+            <span class= "navbar-brand">SIBATTA</span>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -88,13 +90,10 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link text-light" href="#" role="button" data-bs-toggle="modal" aria-expanded="false">
                     <ion-icon name="person-circle-outline"></ion-icon>
                     <span id="username">Username</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end mt-2">
-                        <li><a class="dropdown-item" href="login.php"><i class="bi bi-box-arrow-right"></i>Log out</a></li>
-                    </ul>
                 </li>
                 </ul>
             </div>
@@ -104,12 +103,12 @@
     <!-- Sidebar -->
     <div id="sidebar">
         <div class="text-center p-3">
-            <img src="css/images/logo_Polinema.png" alt="Logo" width="50" height="40" class="img-fluid">
+            <img src="css/images/Logo_Sibatta.png" alt="Logo" width="50" height="40" class="img-fluid">
             <h5 class="mt-2 text-dark">SIBATTA</h5>
         </div>
         <ul class="nav flex-column">
             <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="main_user.php">
+                <a class="nav-link text-dark d-flex align-items-center" href="main.php">
                     <ion-icon name="home-outline" class="me-2"></ion-icon> <span>Beranda</span>
                 </a>
             </li>
@@ -123,7 +122,19 @@
                     <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>Upload</span>
                 </a>
             </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="add_user.php">
+                    <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>ADD</span>
+                </a>
+            </li>
         </ul>
+        <div class="modal-footer">
+        <button class="logout-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
+        <ion-icon name="log-out-outline" style="font-size: 20px;"></ion-icon>
+        <span>Log Out</span>
+    </a>
+</div>
+
     </div>
 
     <!-- Overlay -->
@@ -136,6 +147,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos consectetur numquam magni sapiente, velit fugiat dolore alias nemo. Veritatis esse labore non nam praesentium beatae unde quod, quam modi expedita.
         </p>
     </div>
+
     <!-- Email Pop Up And Notification -->
     <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -223,6 +235,32 @@
         </div>
     </div>
 
+   <!-- Modal Logout -->
+<!-- Modal Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title mx-auto" id="logoutModalLabel">Apakah Anda yakin ingin keluar dari akun Anda?</h5>
+            </div>
+            <!-- Body -->
+            <div class="modal-body text-center">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+            <a href="login.php" class="btn btn-danger">Log Out</a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <!-- footeer -->
+    <div class="fixed-bottom text-center mb-2">
+            &copy; Copyright Rey 2024
+        </div>
     
 
 
@@ -244,6 +282,14 @@
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
         });
+
+        function confirmLogout(event) {
+    event.preventDefault(); // Prevent langsung keluar
+    if (confirm("Apakah Anda yakin ingin log out?")) {
+        window.location.href = "login.php";
+    }
+}
+    
     </script>
 </body>
 

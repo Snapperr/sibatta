@@ -1,14 +1,50 @@
+<?php
+// Define the directory to save uploaded files
+$uploadDir = 'uploads/';
+
+// Create uploads directory if it doesn't exist
+if (!file_exists($uploadDir)) {
+    mkdir($uploadDir, 0777, true);
+}
+
+$message = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['files'])) {
+    // Loop through uploaded files
+    foreach ($_FILES['files']['tmp_name'] as $key => $tmpName) {
+        $fileName = $_FILES['files']['name'][$key];
+        $fileTmpName = $_FILES['files']['tmp_name'][$key];
+        $fileError = $_FILES['files']['error'][$key];
+
+        if ($fileError === UPLOAD_ERR_OK) {
+            // Create unique file name to avoid overwriting
+            $targetFile = $uploadDir . time() . '_' . basename($fileName);
+            if (move_uploaded_file($fileTmpName, $targetFile)) {
+                $message = 'File uploaded successfully!';
+            } else {
+                $message = 'Error uploading file.';
+            }
+        } else {
+            $message = 'There was an error with the file upload.';
+        }
+    }
+}
+
+// Retrieve list of uploaded files
+$files = array_diff(scandir($uploadDir), array('.', '..'));
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
+    <title>File Upload</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="css/history.css">
+    <link rel="stylesheet" href="css/upload.css">
 </head>
 
 <body>
@@ -73,11 +109,11 @@
                     <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>Upload</span>
                 </a>
             </li>
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-dark d-flex align-items-center" href="history.php">
-                        <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
-                    </a>
-                </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="history.php">
+                    <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -86,36 +122,59 @@
 
     <!-- Main Content -->
     <div class="container mt-4">
-        <h1>History</h1>
-        <table class="table table-bordered table-striped mt-4">
-            <thead class="table-dark">
+        <h1>Upload File</h1>
+        <?php if ($message): ?>
+            <div class="alert alert-info"><?php echo $message; ?></div>
+        <?php endif; ?>
+        <!-- Form Upload -->
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="fileInput" class="form-label">Pilih File</label>
+                <input type="file" class="form-control" id="fileInput" name="files[]" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+
+        <!-- Table -->
+        <!-- Table -->
+<div class="table-container mt-4">
+    <h3>Uploaded Files</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>File Name</th>
+                <th>File Size</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($files)): ?>
+                <?php foreach ($files as $index => $file): ?>
+                    <tr>
+                        <td><?php echo $index + 1; ?></td>
+                        <td><?php echo $file; ?></td>
+                        <td><?php echo number_format(filesize($uploadDir . $file) / 1024, 2) . ' KB'; ?></td>
+                        <td><?php echo date('d-m-Y H:i:s', filemtime($uploadDir . $file)); ?></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <a href="<?php echo $uploadDir . $file; ?>" download class="btn btn-sm btn-success me-2">Download</a>
+                                <input type="checkbox" name="file_check[]" value="<?php echo $file; ?>">
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
                 <tr>
-                    <th>No</th>
-                    <th>Nama File</th>
-                    <th>Tanggal Upload</th>
-                    <th>Ukuran File</th>
-                    <th>Aksi</th>
+                    <td colspan="6" class="text-center">No files uploaded yet.</td>
                 </tr>
-            </thead>
-            <tbody>
-                <!-- Contoh data -->
-                <tr>
-                    <td>1</td>
-                    <td>file1.pdf</td>
-                    <td>2024-11-25</td>
-                    <td>512 KB</td>
-                    <td><button class="btn btn-danger btn-sm">Hapus</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>file2.jpg</td>
-                    <td>2024-11-24</td>
-                    <td>1.2 MB</td>
-                    <td><button class="btn btn-danger btn-sm">Hapus</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
 
     <!-- Optional JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

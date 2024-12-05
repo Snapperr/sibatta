@@ -20,3 +20,27 @@
 <br clear="both">
 
 ###
+
+
+alur
+
+
+User(Mahasiswa)
+-login
+-Upload Dokumen (History Upload)
+-Lihat Reaksi
+-Log Out
+
+user(Admin perpus)
+-Melihat Dokumen
+-download dokumen
+-send email (upload surat)
+-Memberi Reaksi(Approve,Mengirim Surat)
+-Log Out
+
+Super Admin
+-Tambah Mahasiswa
+-Tambah Dosen
+-Memberi Reaksi(Approve)
+-Report (History)
+-Log Out
