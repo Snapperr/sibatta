@@ -4,6 +4,7 @@ require 'koneksi.php';
 
 // Start session
 session_start();
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
 // Placeholder for error message
 $message = "";
