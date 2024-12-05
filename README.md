@@ -1,5 +1,19 @@
 <h2 align="left">SIBATTA (Sistem Bebas Tanggungan Tugas Akhir) Repository</h2>
+User(Mahasiswa)
+-login
+-Upload Dokumen
+-Lihat Reaksi
+-Chat Admin
 
+user(Dosen)
+-Melihat Dokumen
+-Memberi Reaksi
+
+Admin
+-Tambah Mahasiswa
+-Tambah Dosen
+-Chat Mahasiswa
+-Report (History)
 ###
 
 <div align="left">
