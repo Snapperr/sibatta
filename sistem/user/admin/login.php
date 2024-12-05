@@ -1,34 +1,26 @@
 <?php
 // Start the session
 session_start();
-<<<<<<< HEAD
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-=======
 
 // Include the database connection
 require 'koneksi.php';
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
 
 // Placeholder for message if login fails
 $message = "";
 
-<<<<<<< HEAD
-=======
 // Check if the form is submitted
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Collect form data
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-<<<<<<< HEAD
     // Simulate database check (you should replace this with actual database validation)
     if ($username == "your_correct_username" && $password == "your_correct_password") {
         // Set session variables and redirect to the main page
         $_SESSION['username'] = $username;
         header('Location: main.php'); // Redirect to main.php on success
         exit();
-=======
     // Validate input
     if (!empty($username) && !empty($password)) {
         // Query to check if the user exists and password matches
@@ -54,11 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Invalid username or password
             $message = "Invalid username or password!";
         }
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
     } else {
         $message = "Please fill in all fields!";
     }
-<<<<<<< HEAD
 
 }
 // Simulasi nama pengguna yang disimpan di session
@@ -67,9 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- Replace in HTML -->
 <span id="username"><?php echo $username; ?></span>
 
-=======
 }
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
 ?>
 
 <!doctype html>
@@ -87,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <main class="form-signin w-100 m-auto">
         <div class="container">
             <!-- Login Form -->
-<<<<<<< HEAD
             <form class="needs-validation" novalidate method="POST" action="main.php">
                 <div class="header text-center mb-4">
                     <img src="css/images/logo_Polinema.png" alt="Logo" class="logo" />
@@ -105,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="floatingInput">NIM</label>
                     <div class="invalid-feedback">
                         Masukan NIM Yang Terdaftar
-=======
             <form class="needs-validation" novalidate method="POST" action="">
                 <div class="header text-center mb-4">
                     <img src="css/images/logo_Polinema.png" alt="Logo" class="logo" />
@@ -123,7 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="floatingInput">Username</label>
                     <div class="invalid-feedback">
                         Please enter your registered username.
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
                     </div>
                 </div>
 
@@ -132,17 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
                     <label for="floatingPassword">Password</label>
                     <div class="invalid-feedback">
-<<<<<<< HEAD
                         Masukan Password.
                     </div>
                 </div>
                 
-=======
                         Please enter your password.
                     </div>
                 </div>
 
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
                 <!-- Submit Button -->
                 <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
             </form>
@@ -153,11 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-<<<<<<< HEAD
         // Basic client-side validation
-=======
         // Client-side validation
->>>>>>> 02823f3267ec4a6b84b38614e9d1ac2ca20f9910
         (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')
