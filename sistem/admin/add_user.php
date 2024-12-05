@@ -54,31 +54,143 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User List</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/add_user.css">
+  <style>
+    #sidebar {
+            position: fixed;
+            left: -250px;
+            top: 56px;
+            /* Adjust to match the height of the horizontal navbar */
+            height: calc(100vh - 56px);
+            width: 250px;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease-in-out;
+            z-index: 1050;
+            /* Ensure it is above other content */
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            /* Just below the sidebar */
+            display: none;
+        }
+
+        #overlay.active {
+            display: block;
+        }
+
+        /* Ensure the sidebar toggle button is clickable */
+        #sidebarToggle {
+            z-index: 1060;
+        }
+       
+  </style>
 </head>
 
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">SIBATTA</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="logout.php"><i class="bi bi-box-arrow-right"></i> Log Out</a>
-          </li>
+    <!-- Horizontal Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+           
+            <button class="btn btn" id="sidebarToggle">
+                <img src="css/images/Logo_Sibatta.png" alt="Toggle Sidebar" style="width: 30px; height: 40px; object-fit:cover;">
+            </button>
+            <span class= "navbar-brand">SIBATTA</span>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="location.reload()">
+                            <ion-icon name="refresh-outline"></ion-icon>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="massage.php" data-bs-toggle="modal" data-bs-target="#messageModal" data-bs-target="#sendMessageModal">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                            <ion-icon name="notifications-outline"></ion-icon>
+                        </a>
+                    </li>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Add Compose Email Button -->
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#" data-bs-toggle="modal" data-bs-target="#emailModal">
+                        <ion-icon name="mail-outline"></ion-icon>
+                    </a>
+                </li>
+            </ul>
+        </div>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link text-light" href="#" role="button" data-bs-toggle="modal" aria-expanded="false">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <span id="username">Username</span>
+                    </a>
+                </li>
+            
+                </ul>
+            </div>
+            
+        </div>
+    </nav>
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="text-center p-3">
+            <img src="css/images/Logo_Sibatta.png" alt="Logo" width="50" height="40" class="img-fluid">
+            <h5 class="mt-2 text-dark">SIBATTA</h5>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="main.php">
+                    <ion-icon name="home-outline" class="me-2"></ion-icon> <span>Beranda</span>
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="history.php">
+                    <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="add_user.php">
+                    <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>ADD</span>
+                </a>
+            </li>
         </ul>
-      </div>
+        <div class="modal-footer">
+        <button class="logout-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
+        <ion-icon name="log-out-outline" style="font-size: 20px;"></ion-icon>
+        <span>Log Out</span>
+    </a>
+</div>
+
     </div>
-  </nav>
+
+    <!-- Overlay -->
+    <div id="overlay"></div>
 
   <!-- Table and Add User Section -->
   <div class="container mt-4">
@@ -102,26 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
       </thead>
       <tbody id="userTableBody">
-        <?php
-        // // if ($result->num_rows > 0) {
-        // //     $no = 1;
-        // //     while($row = $result->fetch_assoc()) {
-        // //         echo "<tr>
-        // //                 <td>{$no}</td>
-        // //                 <td>{$row['username']}</td>
-        // //                 <td>{$row['no_telepon']}</td>
-        // //                 <td>{$row['email']}</td>
-        // //                 <td>
-        // //                     <a href='edit_user.php?id={$row['id']}' class='btn btn-warning btn-sm'>Edit</a>
-        // //                     <a href='delete_user.php?id={$row['id']}' class='btn btn-danger btn-sm'>Delete</a>
-        // //                 </td>
-        // //               </tr>";
-        // //         $no++;
-        // //     }
-        // // } else {
-        //     echo "<tr><td colspan='5' class='text-center'>No users found</td></tr>";
-        // // }
-        ?>
+        <!-- Populate with PHP dynamically -->
       </tbody>
     </table>
   </div>
@@ -156,80 +249,164 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" name="password" required>
             </div>
-              </select>
-            </div>
-            <!-- Prodi Dropdown (Dynamically Loaded) -->
             <div class="mb-3">
-              <label for="prodi" class="form-label">Prodi</label>
-              <select class="form-select" id="prodi" name="prodi" required> 
-              <option value="user">Teknologi Informasi</option>
-              <option value="admin">Sistem Informasi Bisnis</option>
-              </select>
+              <label for="confirm_password" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
             </div>
-            <div class="mb-3">
-              <label for="level" class="form-label">User Level</label>
-              <select class="form-select" id="level" name="level" required>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save User</button>
             </div>
-            <button type="submit" class="btn btn-primary">Add User</button>
           </form>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="sidebar">
-        <div class="text-center p-3">
-            <img src="css/images/logo_Polinema.png" alt="Logo" width="50" height="40" class="img-fluid">
-            <h5 class="mt-2 text-dark">SIBATTA</h5>
+   <!-- Email Pop Up And Notification -->
+   <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailModalLabel">Emails</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Default Content (Before Compose) -->
+                <div id="defaultContent">
+                    <ul class="list-group">
+                        <li class="list-group-item">You have a new message from Admin</li>
+                        
+                    </ul>
+                    <button class="btn btn-primary mt-3" id="composeBtn">Compose New Email</button>
+                </div>
+
+                <!-- Compose Form (Initially Hidden) -->
+                <div id="composeForm" style="display: none;">
+                    <form method="POST" action="send_email.php" id="emailForm">
+                        <!-- Email Address -->
+                        <div class="mb-3">
+                            <label for="toEmail" class="form-label">Recipient Email</label>
+                            <input type="email" class="form-control" id="toEmail" name="toEmail" required>
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                            <div class="invalid-feedback">Please enter a subject.</div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            <div class="invalid-feedback">Please enter your message.</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="main_user.php">
-                    <ion-icon name="home-outline" class="me-2"></ion-icon> <span>Beranda</span>
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="history.php">
-                    <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="upload.php">
-                    <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>Upload</span>
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="add_user.php">
-                    <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>ADD</span>
-                </a>
-            </li>
-        </ul>
-        <div class="modal-footer">
-        <button class="logout-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
-        <ion-icon name="log-out-outline" style="font-size: 20px;"></ion-icon>
-        <span>Log Out</span>
-    </a>
+    </div>
 </div>
 
-  <!-- Optional JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">New file uploaded</li>
 
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Modal Pop-Up -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+         
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Pesan</label>
+                        <textarea class="form-control" id="message" name="message" rows="1" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chatFileInput" class="form-label">Lampiran</label>
+                        <input type="file" id="chatFileInput" name="chat_file" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Modal Logout -->
+<!-- Modal Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title mx-auto" id="logoutModalLabel">Apakah Anda yakin ingin keluar dari akun Anda?</h5>
+            </div>
+            <!-- Body -->
+            <div class="modal-body text-center">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+            <a href="login.php" class="btn btn-danger">Log Out</a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <!-- footeer -->
+    <div class="fixed-bottom text-center mb-2">
+            &copy; Copyright Rey 2024
+        </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Sidebar toggle
+    document.getElementById('sidebarToggle').onclick = function () {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
+    };
+
     // Search functionality
-    document.getElementById('search').addEventListener('input', function() {
-      const searchTerm = this.value.toLowerCase();
-      const rows = document.querySelectorAll('#userTableBody tr');
-      rows.forEach(row => {
-        const name = row.cells[1].innerText.toLowerCase();
-        if (name.includes(searchTerm)) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
+    document.getElementById('search').addEventListener('input', function () {
+      let filter = this.value.toUpperCase();
+      let rows = document.getElementById('userTableBody').getElementsByTagName('tr');
+      for (let i = 0; i < rows.length; i++) {
+        let cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        for (let j = 0; j < cells.length; j++) {
+          if (cells[j].innerText.toUpperCase().includes(filter)) {
+            found = true;
+            break;
+          }
         }
-      });
+        rows[i].style.display = found ? '' : 'none';
+      }
     });
   </script>
 </body>

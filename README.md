@@ -41,14 +41,16 @@ alur
 
 User(Mahasiswa)
 -login
+-menerima email
 -Upload Dokumen (History Upload)
 -Lihat Reaksi
 -Log Out
 
 user(Admin perpus)
--Melihat Dokumen
+-Melihat Dokumen 
 -download dokumen
 -send email (upload surat)
+-menerima email
 -Memberi Reaksi(Approve,Mengirim Surat)
 -Log Out
 

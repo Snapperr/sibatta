@@ -12,12 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['files'])) {
     // Loop through uploaded files
     foreach ($_FILES['files']['tmp_name'] as $key => $tmpName) {
         $fileName = $_FILES['files']['name'][$key];
+        $fileSize = $_FILES['files']['size'][$key];
         $fileTmpName = $_FILES['files']['tmp_name'][$key];
         $fileError = $_FILES['files']['error'][$key];
-
+        
         if ($fileError === UPLOAD_ERR_OK) {
-            // Create unique file name to avoid overwriting
-            $targetFile = $uploadDir . time() . '_' . basename($fileName);
+            // Move the uploaded file to the upload directory
+            $targetFile = $uploadDir . basename($fileName);
             if (move_uploaded_file($fileTmpName, $targetFile)) {
                 $message = 'File uploaded successfully!';
             } else {
@@ -30,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['files'])) {
 }
 
 // Retrieve list of uploaded files
-$files = array_diff(scandir($uploadDir), array('.', '..'));
-?>
+$files = array_diff(scandir($uploadDir), array('.', '..')); // List files in the uploads directory
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,30 @@ $files = array_diff(scandir($uploadDir), array('.', '..'));
 </head>
 
 <body>
+<div id="sidebar">
+        <div class="text-center p-3">
+            <img src="css/images/logo_Polinema.png" alt="Logo" width="50" height="40" class="img-fluid">
+            <h5 class="mt-2 text-dark">SIBATTA</h5>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="main_user.php">
+                    <ion-icon name="home-outline" class="me-2"></ion-icon> <span>Beranda</span>
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="upload.php">
+                    <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>Upload</span>
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link text-dark d-flex align-items-center" href="history.php">
+                    <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <!-- Horizontal Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -93,30 +118,7 @@ $files = array_diff(scandir($uploadDir), array('.', '..'));
     </nav>
 
     <!-- Sidebar -->
-    <div id="sidebar">
-        <div class="text-center p-3">
-            <img src="css/images/logo_Polinema.png" alt="Logo" width="50" height="40" class="img-fluid">
-            <h5 class="mt-2 text-dark">SIBATTA</h5>
-        </div>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="main_user.php">
-                    <ion-icon name="home-outline" class="me-2"></ion-icon> <span>Beranda</span>
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="upload.php">
-                    <ion-icon name="cloud-upload-outline" class="me-2"></ion-icon> <span>Upload</span>
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a class="nav-link text-dark d-flex align-items-center" href="history.php">
-                    <ion-icon name="time-outline" class="me-2"></ion-icon> <span>History</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
+   
     <!-- Overlay -->
     <div id="overlay"></div>
 

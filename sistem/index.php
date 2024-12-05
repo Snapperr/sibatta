@@ -39,16 +39,71 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PBL</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/login.css">
+    <style>
+        html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  body {
+    /* background-image: url('images/Graha.jpg'); */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/Graha.jpg');
+    background-size: cover; /* Menutup seluruh layar */
+    background-position: center;
+    background-repeat: no-repeat;
+   
+  }
+  
+  .logo {
+    width: 150px;
+    height: auto; 
+    display: block;
+    margin: 0 auto; 
+  }
+  .container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #f3f3f3;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+  }
+  
+  
+  .form-signin {
+    max-width: 330px;
+    padding: 1rem;
+  }
+  
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+  
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  img {
+    border-radius: 8px;
+  }
+  
+    </style>
 </head>
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto">
         <div class="container">
             <!-- Login Form -->
-            <form class="needs-validation" novalidate method="POST" action="main.php">
+            <form class="needs-validation" novalidate method="POST" action="admin/main.php">
                 <div class="header text-center mb-4">
-                    <img src="css/images/logo_Polinema.png" alt="Logo" class="logo" />
+                    <img src="images/logo_Polinema.png" alt="Logo" class="logo" />
                 </div>
                 
                 <h1 class="h3 mb-3 fw-normal text-center" style="color: black;">SIBATTA</h1>
